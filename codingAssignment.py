@@ -14,20 +14,29 @@ movies = root.findall('movies/movie')
 idIMDB = []
 
 #Iterates through all movies in theaters and prints title
-print 'Movies in theaters'
+print 'MOVIES IN THEATERS'
 for item in movies:
-  print item.find('title').text
   movieID = item.find('idIMDB').text
   idIMDB.append(movieID)
-  print movieID
+  print item.find('title').text.encode('utf-8') + ' - ' + movieID
+  
 
-#Queries myapifilms for actors based on movie ID passed to it and returns in XML format
-actorRequest = 'http://www.myapifilms.com/imdb?idIMDB=tt1798684&format=XML&aka=0&business=0&seasons=0&seasonYear=0&technical=0&lang=en-us&actors=S&biography=1&trailer=0&uniqueName=0&filmography=0&bornDied=1&starSign=0&actorActress=0&actorTrivia=0&movieTrivia=0&awards=0&moviePhotos=N&movieVideos=N&similarMovies=0'
-root = ET.parse(urllib.urlopen(actorRequest)).getroot()
-actors = root.findall('actors/actor')
+#Iterates though all movies based on IMDB ID 
+for i in idIMDB:
+  print '\nMOVIE ID: ' + i 
+  
+  #Queries myapifilms for actors based on movie ID passed to it and returns in XML format
+  actorRequest = 'http://www.myapifilms.com/imdb?idIMDB='+i+'&format=XML&aka=0&business=0&seasons=0&seasonYear=0&technical=0&lang=en-us&actors=S&biography=1&trailer=0&uniqueName=0&filmography=0&bornDied=1&starSign=0&actorActress=0&actorTrivia=0&movieTrivia=0&awards=0&moviePhotos=N&movieVideos=N&similarMovies=0'
+  root = ET.parse(urllib.urlopen(actorRequest)).getroot()
+  actors = root.findall('actors/actor')
+  dob = root.findall('actors/actor/biography/dateOfBirth')
+  
+  #Lists all actors
+  for item in actors:
+    print item.find('actorName').text.encode('utf-8')
+    
+  #lists actors dob
+  for item in dob:
+    print item.text.encode('utf-8')
 
-#Lists all actors
-for item in actors:
-  print item.find('actorName').text
-  print item.find('biography/dateOfBirth').text
   
