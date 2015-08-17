@@ -44,7 +44,7 @@ for item in movies:
   print title
 
 #Variable used to keep track of current movie 
-x = 0;
+x = 0
 
 #Iterates though all movies based on IMDB ID
 for i in idIMDB:
@@ -59,17 +59,17 @@ for i in idIMDB:
   #Lists all actors and their age
   for item in actors:
     dob = item.find('biography/dateOfBirth')
-    if(dob != None):
+    if dob is not None:
       bday = dob.text.encode('utf-8')
       age = findAge(bday)
       ages.append(age)
-      print item.find('actorName').text.encode('utf-8') + ' ' + str(age)
+      print item.find('actorName').text.encode('utf-8'), str(age)
   
   total = 0
   for i in ages:
     total += i
   
-  print 'AVERAGE AGE: ' + str(total/len(ages))
+  print 'AVERAGE AGE: ', str(total/len(ages))
   ages = []
   
 
